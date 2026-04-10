@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "golden_set_manifest": "golden_set_2d.json",
+  "score": {
+    "1d": {
+      "range_error_mm": 1.0,
+      "abs_range_bias_mm": 1.0,
+      "mse": 50.0
+    },
+    "2d": {
+      "range_error_mm": 1.0,
+      "abs_range_bias_mm": 1.0,
+      "penumbra_error_mm": 1.0,
+      "mse": 30.0
+    }
+  },
+  "gates": {
+    "1d": {
+      "mean_range_error_mm_max": 2.0,
+      "mean_abs_range_bias_mm_max": 2.0,
+      "percent_cases_re_below_2mm_min": 0.8
+    },
+    "2d": {
+      "mean_range_error_mm_max": 3.0,
+      "mean_abs_range_bias_mm_max": 2.0,
+      "mean_penumbra_error_mm_max": 6.0,
+      "percent_cases_re_below_2mm_min": 0.6
+    }
+  },
+  "stratification": {
+    "energy_mev_bins": [0.0, 110.0, 170.0, 400.0],
+    "energy_labels": ["low", "medium", "high"],
+    "shift_magnitude_cm_bins": [0.0, 0.1, 0.2, 10.0],
+    "shift_labels": ["small", "moderate", "large"],
+    "heterogeneity_score_bins": [0.0, 0.0027, 0.0030, 1.0],
+    "heterogeneity_labels": ["low", "medium", "high"]
+  }
+}
