@@ -1,4 +1,4 @@
-# Python
+ï»¿# Python
 venv_projeto/
 __pycache__/
 *.pyc
@@ -20,8 +20,14 @@ data/tmp_*/
 figures/*.png
 benchmark_outputs/
 
-# Model weights (too large for git — retrain with train.py)
-models/*.pth
+# Model weights
+# Ignore all checkpoints by default, but keep published inference weights.
+models/*
+!models/best_unet2d.pth
+!models/best_loss_unet2d.pth
+!models/ft_bragg_v1/
+models/ft_bragg_v1/*
+!models/ft_bragg_v1/best_unet2d.pth
 
 # Frontend dependencies
 frontend/node_modules/
@@ -36,6 +42,7 @@ Thumbs.db
 .DS_Store
 
 # Logs
+*.log
 train_log.txt
 test_output.txt
 eval_results*.txt

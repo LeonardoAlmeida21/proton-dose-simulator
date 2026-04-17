@@ -49,6 +49,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--framework_config", type=str,
                    default=os.path.join(os.path.dirname(__file__), "framework_config.json"),
                    help="Path to framework config (score/gates contract)")
+    p.add_argument("--resume_checkpoint", type=str, default=None,
+                   help="Optional checkpoint path to resume/fine-tune from.")
     # Loss Weights
     p.add_argument("--w_mse",        type=float, default=1.0)
     p.add_argument("--w_range",      type=float, default=None)
@@ -221,6 +223,12 @@ def main():
             args.mse_focus_2d,
         )
         model_name = "unet2d"
+
+    if args.resume_checkpoint:
+        ckpt_obj = torch.load(args.resume_checkpoint, map_location=device, weights_only=True)
+        state_dict = ckpt_obj["state_dict"] if isinstance(ckpt_obj, dict) and "state_dict" in ckpt_obj else ckpt_obj
+        model.load_state_dict(state_dict)
+        print(f"Resumed from checkpoint: {args.resume_checkpoint}")
 
     total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f"Model: {model_name.upper()} | Parameters: {total_params:,}")

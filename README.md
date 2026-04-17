@@ -62,10 +62,25 @@ This generates `mc_engine.exe` in the project root.
 .\venv_projeto\Scripts\python.exe train.py --mode 2d --framework_config .\framework_config.json
 ```
 
+Fine-tune from an existing checkpoint:
+
+```powershell
+.\venv_projeto\Scripts\python.exe train.py --mode 2d --resume_checkpoint .\models\best_unet2d.pth --epochs 30 --lr 1e-4 --models_dir .\models\ft_run_01
+```
+
 Output checkpoints:
 - `models/best_unet2d.pth` (best clinical composite score)
 - `models/best_loss_unet2d.pth` (best validation loss)
 - `models/last_unet2d.pth`
+
+### Published Weights (in repository)
+
+- `models/best_unet2d.pth` (default inference model used by `api.py` and dashboard)
+- `models/best_loss_unet2d.pth` (reference baseline)
+- `models/ft_bragg_v1/best_unet2d.pth` (fine-tuned variant focused on Bragg alignment)
+
+To use the fine-tuned model in the dashboard/API, replace:
+`models/best_unet2d.pth` with `models/ft_bragg_v1/best_unet2d.pth`.
 
 ### Evaluate
 
@@ -89,6 +104,16 @@ Generated artifacts:
 - `benchmark_summary.json`
 - `benchmark_cases.csv`
 - `experiments_log.csv`
+
+### Deep clinical analysis (Bragg + penumbra diagnostics)
+
+```powershell
+.\venv_projeto\Scripts\python.exe analyze_unet2d.py --checkpoint .\models\best_unet2d.pth --split all --window_rows 7 --output_json .\benchmark_outputs\analysis\analysis_best_unet2d.json
+```
+
+This report includes both:
+- legacy metrics (same definitions as `evaluate.py` and `benchmark_unet.py`)
+- robust diagnostics for Bragg alignment and penumbra stability
 
 ### Regenerate frozen manifest (only when versioning a new golden set)
 
